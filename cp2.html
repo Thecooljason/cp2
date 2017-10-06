@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Jason M</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+  
+  <script>
+	$(document).ready(function() {
+	
+		$("#searchButton").click(function(e) {
+			var targetShip = $("#shipSearch").val();
+			//console.log(targetShip);
+			var URL = "https://swapi.co/api/starships/?search=" + targetShip;
+			//console.log(URL);
+			
+			$.getJSON(URL, function(data) {
+				var outHTML = "";
+				//console.log(data);
+				for (var i = 0; i < data["count"]; i++) {
+					//console.log(data["results"][i]);
+					var name = '<h4 align="center">' + data["results"][i]["name"] + "</h4>";
+					var model = '<li class="list-group-item">' + "Model: " + data["results"][i]["model"] + "</li>";
+					var manufacturer = '<li class="list-group-item">' + "Manufacturer: " + data["results"][i]["manufacturer"] + "</li>";
+					var cost = '<li class="list-group-item">' + "Cost: " + data["results"][i]["cost_in_credits"] + "</li>";
+					var cargo = '<li class="list-group-item">' + "Cargo: " + data["results"][i]["cargo_capacity"] + "</li>";
+					var crew = '<li class="list-group-item">' + "Crew: " + data["results"][i]["crew"] + "</li>";
+					var passengers = '<li class="list-group-item">' + "Passengers: " + data["results"][i]["passengers"] + "</li>";
+					var starClass = '<li class="list-group-item">' + "Star Class: " + data["results"][i]["starship_class"] + "</li>";
+					outHTML = outHTML + name + '<ul class="list-group">' + model + manufacturer + cost + cargo + crew + passengers + starClass + "</ul></br>";
+					//console.log(outHTML);
+				}
+				//console.log("end for loop");
+				$("#searchResults").html(outHTML);
+			});
+		});
+	});
+  </script>
+</head>
+<body>
+
+<div class="container shipBody">
+    <h1 id="header" align="center">Star Wars Ship Information</h1>
+	</br>
+	<form align="center">Enter a ship name:</br><input type="text" id="shipSearch" value=""></br>
+		<input id="searchButton" class="btn-primary" type="sumbit" value="search">
+	</form>
+	</br>
+	<div id="searchResults" align="center">Popular Star Wars ships: Death Star, Slave 1, Imperial Cruiser</div>
+</div>
+
+</body>
+</html>
